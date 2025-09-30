@@ -136,6 +136,75 @@ class CheatsheetScreen(Screen):
         self.app.pop_screen()
 
 
+class RegionInputScreen(Screen):
+    """Modal screen for region override input."""
+
+    CSS = """
+    RegionInputScreen {
+        layout: vertical;
+        background: rgba(0, 0, 0, 0.75);
+        align: center middle;
+    }
+
+    #region-container {
+        width: 60;
+        height: auto;
+        background: $surface;
+        border: thick $primary;
+        padding: 2;
+        layout: vertical;
+    }
+
+    #region-title {
+        text-align: center;
+        margin-bottom: 1;
+    }
+
+    #region-hint {
+        color: $text-muted;
+        text-align: center;
+        margin-bottom: 1;
+    }
+
+    #region-input {
+        margin-bottom: 1;
+    }
+    """
+
+    BINDINGS = [
+        ("escape", "cancel", "Cancel"),
+    ]
+
+    def compose(self) -> ComposeResult:
+        """Compose the region input modal."""
+        with Container(id="region-container"):
+            yield Static(
+                f"[bold cyan]{self.app.lang['region_input_title']}[/bold cyan]",
+                id="region-title",
+            )
+            yield Static(
+                f"[dim]{self.app.lang['region_input_hint']}[/dim]",
+                id="region-hint",
+            )
+            yield Input(
+                placeholder=self.app.lang["region_input_placeholder"],
+                id="region-input",
+            )
+
+    def on_mount(self) -> None:
+        """Focus input when screen is mounted."""
+        self.query_one("#region-input", Input).focus()
+
+    def on_input_submitted(self, event: Input.Submitted) -> None:
+        """Handle input submission."""
+        region = event.value.strip()
+        self.dismiss(region if region else None)
+
+    def action_cancel(self) -> None:
+        """Cancel and close the dialog."""
+        self.dismiss(None)
+
+
 class ProfileList(ListView):
     """Custom ListView for profiles with filtering."""
 
@@ -409,7 +478,7 @@ class AWSUIApp(App):
         Binding("l", "force_login", "Login", show=True),
         Binding("ctrl+c", "cancel_login", "Cancel", show=True),
         Binding("w", "whoami", "WhoAmI", show=True),
-        Binding("r", "region_override", "Region", show=False),
+        Binding("r", "region_override", "Region", show=True),
         Binding("ctrl+l", "clear_cli", "Clear", show=False),
         Binding("escape", "blur_input", "Esc", show=True),
         Binding("?", "show_help", "Help", show=True),
@@ -633,7 +702,16 @@ class AWSUIApp(App):
         )
         table.add_row(self.lang["detail_account"], fmt(profile.get("account")))
         table.add_row(self.lang["detail_role"], fmt(profile.get("role")))
-        table.add_row(self.lang["detail_region"], fmt(profile.get("region")))
+
+        # Show region with override indicator if applicable
+        if self.override_region:
+            region_label = self.lang["detail_region_override"]
+            region_value = self.override_region
+        else:
+            region_label = self.lang["detail_region"]
+            region_value = fmt(profile.get("region"))
+        table.add_row(region_label, region_value)
+
         table.add_row(self.lang["detail_session"], fmt(profile.get("session")))
 
         return table
@@ -1193,7 +1271,24 @@ class AWSUIApp(App):
 
     def action_region_override(self):
         """Show region override dialog."""
-        self.update_status(self.lang["region_override_wip"])
+        def handle_region_result(result: str | None) -> None:
+            """Handle the result from region input screen."""
+            if result is not None:
+                # User entered empty string - clear override
+                if result == "":
+                    self.override_region = None
+                    self.update_status(self.lang["region_override_cleared"])
+                else:
+                    # Set new override
+                    self.override_region = result
+                    self.update_status(self.lang["region_override_set"].format(region=result))
+
+                # Update detail pane if a profile is selected
+                if self.selected_profile:
+                    detail_content = self.query_one("#detail-content", Static)
+                    detail_content.update(self.build_profile_detail(self.selected_profile))
+
+        self.push_screen(RegionInputScreen(), handle_region_result)
 
     def action_clear_cli(self):
         """Clear output area."""
@@ -1278,8 +1373,10 @@ class AWSUIApp(App):
         env = os.environ.copy()
         if self.selected_profile:
             env["AWS_PROFILE"] = self.selected_profile["name"]
-            if self.selected_profile.get("region"):
-                env["AWS_DEFAULT_REGION"] = self.selected_profile["region"]
+            # Use override_region if set, otherwise use profile's region
+            region = self.override_region or self.selected_profile.get("region")
+            if region:
+                env["AWS_DEFAULT_REGION"] = region
 
         # Execute command with real-time output streaming
         start_time = time()
@@ -1354,9 +1451,11 @@ class AWSUIApp(App):
         # Prepare context
         context = ""
         if self.selected_profile:
+            # Use override_region if set, otherwise use profile's region
+            region = self.override_region or self.selected_profile.get("region")
             context = format_aws_context(
                 profile_name=self.selected_profile.get("name"),
-                region=self.selected_profile.get("region"),
+                region=region,
                 account=self.selected_profile.get("account"),
             )
 
@@ -1366,15 +1465,17 @@ class AWSUIApp(App):
         # Execute query with AWS profile environment
         start_time = time()
         try:
+            # Use override_region if set, otherwise use profile's region
+            region = self.override_region or (
+                self.selected_profile.get("region") if self.selected_profile else None
+            )
             response, success = query_q_cli(
                 prompt=query,
                 context=context,
                 profile_name=self.selected_profile.get("name")
                 if self.selected_profile
                 else None,
-                region=self.selected_profile.get("region")
-                if self.selected_profile
-                else None,
+                region=region,
             )
         except Exception as exc:  # pragma: no cover - defensive
             duration_ms = int((time() - start_time) * 1000)
