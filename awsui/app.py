@@ -5,7 +5,7 @@ import os
 import subprocess
 from argparse import ArgumentParser
 from threading import Event
-from typing import List, Literal
+from typing import List
 from time import time
 
 from textual.app import App, ComposeResult
@@ -31,7 +31,6 @@ from rich.table import Table
 from .config import parse_profiles
 from .models import Profile
 from .aws_cli import check_aws_cli_available, ensure_authenticated, sso_login
-from .shellout import print_env_commands, launch_subshell
 from .logging import get_logger
 from .autocomplete import CommandAutocomplete
 from .q_assistant import check_q_cli_available, query_q_cli, format_aws_context
@@ -42,16 +41,6 @@ from .i18n import LANG_ZH_TW, LANG_EN
 def parse_args():
     """Parse command-line arguments."""
     parser = ArgumentParser(prog="awsui", description="AWS Profile/SSO switcher TUI")
-
-    mode_group = parser.add_mutually_exclusive_group()
-    mode_group.add_argument(
-        "--print-env",
-        action="store_true",
-        help="Output shell environment commands to STDOUT",
-    )
-    mode_group.add_argument(
-        "--subshell", action="store_true", help="Launch subshell with selected profile"
-    )
 
     parser.add_argument("--profile", help="Pre-select profile by name")
     parser.add_argument("--region", help="Override AWS region")
@@ -488,7 +477,6 @@ class AWSUIApp(App):
 
     def __init__(
         self,
-        mode: Literal["print-env", "subshell", "interactive"],
         lang: str = "en",
         profile: str | None = None,
         region: str | None = None,
@@ -496,7 +484,6 @@ class AWSUIApp(App):
         **kwargs,
     ):
         super().__init__(**kwargs)
-        self.mode = mode
         self.lang = LANG_ZH_TW if lang == "zh-TW" else LANG_EN
         self.sub_title = self.lang["app_subtitle"]
         self.preselect_profile = profile
@@ -1137,31 +1124,22 @@ class AWSUIApp(App):
                 )
                 self.update_status(self.lang["auth_success"])
 
-                region = self.override_region or profile.get("region")
+                # Update detail pane with profile info
+                if (
+                    self.selected_profile
+                    and self.selected_profile["name"] == profile_name
+                ):
+                    detail_content = self.query_one("#detail-content", Static)
+                    detail_content.remove_class("empty-state")
+                    renderables = [self.build_profile_detail(profile)]
+                    if identity:
+                        renderables.append(self.build_identity_detail(identity))
 
-                if self.mode == "print-env":
-                    self.exit()
-                    print_env_commands(profile_name, region)
-                elif self.mode == "subshell":
-                    self.exit()
-                    exit_code = launch_subshell(profile_name, region)
-                    sys.exit(exit_code)
-                else:
-                    if (
-                        self.selected_profile
-                        and self.selected_profile["name"] == profile_name
-                    ):
-                        detail_content = self.query_one("#detail-content", Static)
-                        detail_content.remove_class("empty-state")
-                        renderables = [self.build_profile_detail(profile)]
-                        if identity:
-                            renderables.append(self.build_identity_detail(identity))
-
-                        detail_content.update(
-                            Group(*renderables)
-                            if len(renderables) > 1
-                            else renderables[0]
-                        )
+                    detail_content.update(
+                        Group(*renderables)
+                        if len(renderables) > 1
+                        else renderables[0]
+                    )
             else:
                 self.logger.error(
                     "authentication_failed",
@@ -1538,17 +1516,8 @@ def main():
     """Entry point for awsui CLI."""
     args = parse_args()
 
-    # Determine mode
-    if args.print_env:
-        mode = "print-env"
-    elif args.subshell:
-        mode = "subshell"
-    else:
-        mode = "interactive"
-
     # Create and run app
     app = AWSUIApp(
-        mode=mode,
         lang=args.lang,
         profile=args.profile,
         region=args.region,
