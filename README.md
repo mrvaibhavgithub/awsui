@@ -20,7 +20,7 @@ A powerful, user-friendly terminal interface for AWS Profile and SSO management.
 
 ## 🎬 Demo
 
-> _Screenshot/GIF coming soon_
+![](images/demo.png)
 
 ## 📋 Features
 
