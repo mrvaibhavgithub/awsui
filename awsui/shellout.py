@@ -3,7 +3,6 @@
 import sys
 import os
 import subprocess
-from typing import Dict
 
 
 def detect_shell() -> str:

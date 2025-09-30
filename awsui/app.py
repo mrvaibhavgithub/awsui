@@ -3,7 +3,6 @@
 import sys
 import os
 import subprocess
-import asyncio
 from argparse import ArgumentParser
 from threading import Event
 from typing import List, Literal
@@ -22,7 +21,6 @@ from textual.widgets import (
 )
 from textual.containers import Container, Vertical, Horizontal, VerticalScroll
 from textual.binding import Binding
-from textual.message import Message
 from textual.reactive import reactive
 from textual.worker import Worker
 from textual.timer import Timer
