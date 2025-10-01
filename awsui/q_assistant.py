@@ -42,7 +42,7 @@ def query_q_cli(
     profile_name: str | None = None,
     region: str | None = None,
     cancel_check: Callable[[], bool] | None = None,
-    timeout: int = 60
+    timeout: int = 300
 ) -> tuple[str, bool]:
     """
     Query Amazon Q Developer CLI with a prompt.
@@ -53,7 +53,7 @@ def query_q_cli(
         profile_name: AWS profile name to use
         region: AWS region to use
         cancel_check: Optional callable that returns True if operation should be cancelled
-        timeout: Timeout in seconds (default: 60)
+        timeout: Timeout in seconds (default: 300)
 
     Returns:
         Tuple of (response_text, success)
@@ -99,11 +99,11 @@ def query_q_cli(
             return ("Query timed out after {timeout} seconds.", False)
 
         if process.returncode == 0:
-            clean_output = _clean_ansi_codes(stdout.strip())
+            clean_output = clean_ansi_codes(stdout.strip())
             return (clean_output, True)
         else:
             error_msg = stderr.strip() if stderr else "Unknown error occurred"
-            clean_error = _clean_ansi_codes(error_msg)
+            clean_error = clean_ansi_codes(error_msg)
             return (f"Error: {clean_error}", False)
 
     except FileNotFoundError:
@@ -118,7 +118,7 @@ def stream_q_cli_query(
     profile_name: str | None = None,
     region: str | None = None,
     cancel_check: Callable[[], bool] | None = None,
-    timeout: int = 60
+    timeout: int = 300
 ) -> subprocess.Popen[str] | None:
     """
     Start a streaming query to Amazon Q Developer CLI.
@@ -129,7 +129,7 @@ def stream_q_cli_query(
         profile_name: AWS profile name to use
         region: AWS region to use
         cancel_check: Optional callable that returns True if operation should be cancelled
-        timeout: Timeout in seconds (default: 60)
+        timeout: Timeout in seconds (default: 300)
 
     Returns:
         subprocess.Popen object with stdout available for streaming, or None on failure
@@ -166,7 +166,7 @@ def stream_q_cli_query(
         return None
 
 
-def _clean_ansi_codes(text: str) -> str:
+def clean_ansi_codes(text: str) -> str:
     """
     Remove ANSI escape codes from text.
 

@@ -33,7 +33,13 @@ from .models import Profile
 from .aws_cli import check_aws_cli_available, ensure_authenticated, sso_login
 from .logging import get_logger
 from .autocomplete import CommandAutocomplete
-from .q_assistant import check_q_cli_available, query_q_cli, format_aws_context
+from .q_assistant import (
+    check_q_cli_available,
+    query_q_cli,
+    stream_q_cli_query,
+    clean_ansi_codes,
+    format_aws_context,
+)
 from .cheatsheet import AWS_CLI_CHEATSHEET, AWS_CLI_COMMANDS, COMMAND_CATEGORIES
 from .i18n import LANG_ZH_TW, LANG_EN
 
@@ -1438,14 +1444,16 @@ class AWSUIApp(App):
         # Show querying status
         self.call_from_thread(self.update_status, self.lang["ai_querying"])
 
-        # Execute query with AWS profile environment
+        # Execute query with AWS profile environment (streaming)
         start_time = time()
         try:
             # Use override_region if set, otherwise use profile's region
             region = self.override_region or (
                 self.selected_profile.get("region") if self.selected_profile else None
             )
-            response, success = query_q_cli(
+
+            # Start streaming process
+            process = stream_q_cli_query(
                 prompt=query,
                 context=context,
                 profile_name=self.selected_profile.get("name")
@@ -1453,6 +1461,54 @@ class AWSUIApp(App):
                 else None,
                 region=region,
             )
+
+            if not process:
+                duration_ms = int((time() - start_time) * 1000)
+                self.call_from_thread(
+                    self._stop_ai_spinner, self.lang["ai_spinner_error"], False
+                )
+                self.call_from_thread(
+                    output_area.write,
+                    "[red]Amazon Q Developer CLI not available or failed to start.[/red]\n",
+                )
+                self.call_from_thread(
+                    self.update_status, self.lang["ai_query_failed"], error=True
+                )
+                self.logger.error("q_query_failed", query=query, duration_ms=duration_ms)
+                return
+
+            # Stream output line by line
+            output_lines = []
+            success = True
+
+            try:
+                for line in process.stdout:
+                    if line:
+                        clean_line = clean_ansi_codes(line.rstrip('\n'))
+                        output_lines.append(clean_line)
+                        # Display line immediately
+                        self.call_from_thread(output_area.write, f"[green]{clean_line}[/green]\n")
+
+                # Wait for process to complete
+                process.wait()
+
+                # Check return code
+                if process.returncode != 0:
+                    success = False
+                    stderr_output = process.stderr.read() if process.stderr else ""
+                    if stderr_output:
+                        clean_error = clean_ansi_codes(stderr_output.strip())
+                        self.call_from_thread(
+                            output_area.write, f"[red]Error: {clean_error}[/red]\n"
+                        )
+
+            except Exception as stream_exc:
+                success = False
+                self.call_from_thread(
+                    output_area.write,
+                    f"[red]Stream error: {str(stream_exc)}[/red]\n",
+                )
+
         except Exception as exc:  # pragma: no cover - defensive
             duration_ms = int((time() - start_time) * 1000)
             error_text = str(exc) or "Unknown error"
@@ -1473,12 +1529,11 @@ class AWSUIApp(App):
 
         duration_ms = int((time() - start_time) * 1000)
 
-        # Display response
+        # Update UI after completion
         if success:
             self.call_from_thread(
                 self._stop_ai_spinner, self.lang["ai_spinner_done"], True
             )
-            self.call_from_thread(output_area.write, f"[green]{response}[/green]")
             self.call_from_thread(
                 output_area.write,
                 f"[dim]{self.lang['execute_success'].format(duration=duration_ms)}[/dim]\n",
@@ -1488,7 +1543,6 @@ class AWSUIApp(App):
             self.call_from_thread(
                 self._stop_ai_spinner, self.lang["ai_spinner_error"], False
             )
-            self.call_from_thread(output_area.write, f"[red]{response}[/red]")
             self.call_from_thread(
                 output_area.write,
                 f"[dim]{self.lang['execute_failure'].format(duration=duration_ms)}[/dim]\n",
@@ -1496,8 +1550,9 @@ class AWSUIApp(App):
             self.call_from_thread(
                 self.update_status, self.lang["ai_query_failed"], error=True
             )
+            response_text = "\n".join(output_lines) if output_lines else "Unknown error"
             self.logger.error(
-                "q_query_failed", query=query, duration_ms=duration_ms, error=response
+                "q_query_failed", query=query, duration_ms=duration_ms, error=response_text
             )
 
     def action_show_cheatsheet(self):
