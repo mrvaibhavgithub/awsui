@@ -1,10 +1,26 @@
 # awsui
+<p align="center">
+    <picture>
+      <img src="images/logo.png" alt="awsui logo" width="400">
+    </picture>
+    <br>
+</p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.13](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/downloads/)
-[![Textual](https://img.shields.io/badge/TUI-Textual-cyan.svg)](https://textual.textualize.io/)
+<p align="center">
+  <a href="https://pypi.org/project/awsui/"><img src="https://img.shields.io/pypi/v/awsui?color=blue" alt="PyPI version"></a>
+  <a href="https://pypi.org/project/awsui/"><img src="https://img.shields.io/pypi/status/awsui" alt="PyPI status"></a>
+  <a href="https://pypi.org/project/awsui/"><img src="https://img.shields.io/pypi/pyversions/awsui" alt="Python versions"></a>
+  <a href="https://pypi.org/project/awsui/"><img src="https://img.shields.io/pypi/dw/awsui" alt="Downloads"></a>
+  <br>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+  <a href="https://textual.textualize.io/"><img src="https://img.shields.io/badge/TUI-Textual-cyan.svg" alt="Textual"></a>
+  <a href="https://github.com/astral-sh/ruff"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff"></a>
+</p>
 
-**[English]** | [繁體中文](README_ZH_TW.md)
+<p align="center">
+  <a href="#"><img src="https://img.shields.io/badge/🇺🇸_English-selected-blue" alt="English"></a>
+  <a href="README_ZH_TW.md"><img src="https://img.shields.io/badge/🇹🇼_繁體中文-available-lightgrey" alt="繁體中文"></a>
+</p>
 
 A powerful, user-friendly terminal interface for AWS Profile and SSO management. Built with [Textual](https://textual.textualize.io/) for a modern, responsive TUI experience.
 
@@ -20,7 +36,33 @@ A powerful, user-friendly terminal interface for AWS Profile and SSO management.
 
 ## 🎬 Demo
 
-![](images/demo.png)
+<p align="center">
+  <figure>
+    <img src="images/demo01.png" alt="Profile search and switching" width="800">
+    <figcaption><i>⚡ Fast profile search and switching with real-time filtering</i></figcaption>
+  </figure>
+</p>
+
+<p align="center">
+  <figure>
+    <img src="images/demo02.png" alt="AWS CLI execution" width="800">
+    <figcaption><i>🎯 Smart CLI with command autocomplete and inline execution</i></figcaption>
+  </figure>
+</p>
+
+<p align="center">
+  <figure>
+    <img src="images/demo03.png" alt="Amazon Q AI assistant" width="800">
+    <figcaption><i>🤖 AI-powered Amazon Q Developer integration with streaming responses</i></figcaption>
+  </figure>
+</p>
+
+<p align="center">
+  <figure>
+    <img src="images/demo04.png" alt="AWS CLI cheatsheet" width="800">
+    <figcaption><i>📚 Built-in AWS CLI cheatsheet with quick reference for 15+ services</i></figcaption>
+  </figure>
+</p>
 
 ## 📋 Features
 
