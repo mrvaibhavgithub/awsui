@@ -1,12 +1,35 @@
 # awsui
+<p align="center">
+    <picture>
+      <img src="images/logo.png" alt="awsui logo" width="400">
+    </picture>
+    <br>
+</p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.13](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/downloads/)
-[![Textual](https://img.shields.io/badge/TUI-Textual-cyan.svg)](https://textual.textualize.io/)
+<p align="center">
+  <a href="https://pypi.org/project/awsui/"><img src="https://img.shields.io/pypi/v/awsui?color=blue" alt="PyPI version"></a>
+  <a href="https://pypi.org/project/awsui/"><img src="https://img.shields.io/pypi/status/awsui" alt="PyPI status"></a>
+  <a href="https://pypi.org/project/awsui/"><img src="https://img.shields.io/pypi/pyversions/awsui" alt="Python versions"></a>
+  <a href="https://pypi.org/project/awsui/"><img src="https://img.shields.io/pypi/dw/awsui" alt="Downloads"></a>
+  <br>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+  <a href="https://textual.textualize.io/"><img src="https://img.shields.io/badge/TUI-Textual-cyan.svg" alt="Textual"></a>
+  <a href="https://github.com/astral-sh/ruff"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff"></a>
+</p>
 
-[English](README.md) | **[繁體中文]**
+<p align="center">
+  <a href="README.md"><img src="https://img.shields.io/badge/🇺🇸_English-available-lightgrey" alt="English"></a>
+  <a href="#"><img src="https://img.shields.io/badge/🇹🇼_繁體中文-selected-blue" alt="繁體中文"></a>
+</p>
 
-強大且易用的 AWS Profile 與 SSO 管理終端介面工具，使用 [Textual](https://textual.textualize.io/) 打造現代化、高回應性的 TUI 體驗。
+<h3 align="center">
+  強大且易用的 AWS Profile 與 SSO 管理終端介面工具。<br>
+  使用 <a href="https://textual.textualize.io/">Textual</a> 打造現代化、高回應性的 TUI 體驗。
+</h3>
+
+<p align="center">
+  <strong>⚡ 快速</strong> • <strong>🔐 安全</strong> • <strong>🤖 AI 驅動</strong> • <strong>🌍 雙語</strong>
+</p>
 
 ## ✨ 為什麼選擇 awsui?
 - **⚡ 極速快捷**：在數十個 AWS profiles 間毫秒級搜尋與切換
@@ -19,7 +42,33 @@
 
 ## 🎬 展示
 
-![](images/demo.png)
+<p align="center">
+  <figure>
+    <img src="images/demo01.png" alt="Profile 搜尋與切換" width="800">
+    <figcaption><i>⚡ 快速的 profile 搜尋與切換，即時過濾</i></figcaption>
+  </figure>
+</p>
+
+<p align="center">
+  <figure>
+    <img src="images/demo02.png" alt="AWS CLI 執行" width="800">
+    <figcaption><i>🎯 智慧 CLI，具備指令自動完成與內嵌執行</i></figcaption>
+  </figure>
+</p>
+
+<p align="center">
+  <figure>
+    <img src="images/demo03.png" alt="Amazon Q AI 助手" width="800">
+    <figcaption><i>🤖 AI 驅動的 Amazon Q Developer 整合，支援串流回應</i></figcaption>
+  </figure>
+</p>
+
+<p align="center">
+  <figure>
+    <img src="images/demo04.png" alt="AWS CLI cheatsheet" width="800">
+    <figcaption><i>📚 內建 AWS CLI cheatsheet，15+ 項服務的快速參考</i></figcaption>
+  </figure>
+</p>
 
 ## 📋 功能特色
 
@@ -46,6 +95,21 @@
 - **跨平台**：Linux、macOS、Windows (PowerShell)
 - **鍵盤優先**：高效率的導航，無需使用滑鼠
 - **可擴展**：乾淨的 Python 架構便於客製化
+
+## ⚡ 快速開始
+
+```bash
+# 使用 uv 安裝（建議）
+uv tool install --python 3.13 awsui
+
+# 或使用 pip 安裝
+pip install awsui
+
+# 啟動 TUI
+awsui
+```
+
+就這麼簡單！開始輕鬆管理您的 AWS profiles。🚀
 
 ## 📦 需求
 
@@ -105,22 +169,22 @@ awsui
 
 **鍵盤快捷鍵：**
 
-| 按鍵 | 功能 |
-|-----|------|
-| `/` | 聚焦搜尋框 |
-| `↑` `↓` | 導覽 profiles |
-| `Enter` | 套用選定的 profile |
-| `c` | 聚焦 CLI 輸入 |
-| `a` | 切換 AI 助手面板 |
-| `t` | 切換左側面板（profile 列表） |
-| `h` | 顯示 AWS CLI cheatsheet |
-| `l` | 強制為選定的 profile 執行 SSO 登入 |
-| `w` | 顯示當前 AWS 身份 (WhoAmI) |
-| `Ctrl+L` | 清空 CLI 輸出 |
-| `Ctrl+U` | 清空 CLI 輸入 |
-| `Esc` | 離開輸入欄位 |
-| `?` | 顯示說明 |
-| `q` | 離開程式 |
+| 分類 | 按鍵 | 功能 |
+|----------|-----|--------|
+| **🔍 導覽** | `/` | 聚焦搜尋框 |
+| | `↑` `↓` | 導覽 profiles |
+| | `Enter` | 套用選定的 profile |
+| | `Esc` | 離開輸入欄位 |
+| **💻 CLI 與工具** | `c` | 聚焦 CLI 輸入 |
+| | `a` | 切換 AI 助手面板 |
+| | `h` | 顯示 AWS CLI cheatsheet |
+| | `t` | 切換左側面板（profile 列表） |
+| **🔐 AWS** | `l` | 強制為選定的 profile 執行 SSO 登入 |
+| | `w` | 顯示當前 AWS 身份 (WhoAmI) |
+| **⚙️ 系統** | `Ctrl+L` | 清空 CLI 輸出 |
+| | `Ctrl+U` | 清空 CLI 輸入 |
+| | `?` | 顯示說明 |
+| | `q` | 離開程式 |
 
 ### 預先選擇 Profile
 
@@ -295,9 +359,10 @@ uv run mypy awsui/
 
 ## 🐛 疑難排解
 
-### 找不到 AWS CLI
+<details>
+<summary><strong>找不到 AWS CLI</strong> - <code>E_NO_AWS: AWS CLI v2 not detected</code></summary>
 
-**錯誤：** `E_NO_AWS: AWS CLI v2 not detected`
+<br>
 
 **解決方案：** 依循[官方指南](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)安裝 AWS CLI v2
 
@@ -306,9 +371,12 @@ uv run mypy awsui/
 aws --version  # 應顯示 "aws-cli/2.x.x ..."
 ```
 
-### 沒有可用的 Profiles
+</details>
 
-**錯誤：** `E_NO_PROFILES: No profiles detected`
+<details>
+<summary><strong>沒有可用的 Profiles</strong> - <code>E_NO_PROFILES: No profiles detected</code></summary>
+
+<br>
 
 **解決方案：** 至少設定一個 profile：
 ```bash
@@ -322,9 +390,12 @@ aws configure sso
 aws configure
 ```
 
-### SSO 登入失敗
+</details>
 
-**錯誤：** `E_LOGIN_FAIL: SSO login failed`
+<details>
+<summary><strong>SSO 登入失敗</strong> - <code>E_LOGIN_FAIL: SSO login failed</code></summary>
+
+<br>
 
 **可能原因：**
 - 網路連線問題
@@ -341,9 +412,12 @@ aws sso login --profile your-profile-name
 # 確保 port 8080-8090 範圍可用於 OAuth callback
 ```
 
-### 身份檢查失敗
+</details>
 
-**錯誤：** `E_STS_FAIL: Unable to fetch identity`
+<details>
+<summary><strong>身份檢查失敗</strong> - <code>E_STS_FAIL: Unable to fetch identity</code></summary>
+
+<br>
 
 **可能原因：**
 - 憑證過期（SSO token 或 assume-role session）
@@ -363,9 +437,12 @@ cat ~/.aws/config
 aws sts get-caller-identity --profile your-profile-name
 ```
 
-### Amazon Q 不可用
+</details>
 
-**錯誤：** `Amazon Q CLI not available`
+<details>
+<summary><strong>Amazon Q 不可用</strong> - <code>Amazon Q CLI not available</code></summary>
+
+<br>
 
 **解決方案：** 安裝 Amazon Q Developer CLI：
 ```bash
@@ -380,6 +457,8 @@ brew install amazon-q
 ```bash
 q --version
 ```
+
+</details>
 
 ## 🔒 安全性
 
@@ -441,6 +520,29 @@ awsui 遵循 AWS 安全最佳實踐：
 
 ---
 
-**awsui** - 讓 AWS Profile 切換變得愉快！🚀
+<h2 align="center">✨ 用 ❤️ 為 AWS 開發者打造 ✨</h2>
 
-如果您覺得此工具有用，請考慮在 GitHub 上給它一個 ⭐！
+<p align="center">
+  <strong>awsui</strong> - 讓 AWS Profile 切換變得愉快！🚀
+</p>
+
+<p align="center">
+  如果您覺得此工具有用，請考慮在 GitHub 上給它一個 ⭐！
+</p>
+
+<p align="center">
+  <a href="https://github.com/junminhong/awsui/stargazers">
+    <img src="https://img.shields.io/github/stars/junminhong/awsui?style=social" alt="GitHub stars">
+  </a>
+  <a href="https://github.com/junminhong/awsui/fork">
+    <img src="https://img.shields.io/github/forks/junminhong/awsui?style=social" alt="GitHub forks">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/junminhong/awsui/issues">回報問題</a>
+  •
+  <a href="https://github.com/junminhong/awsui/issues">功能請求</a>
+  •
+  <a href="https://pypi.org/project/awsui/">PyPI 套件</a>
+</p>

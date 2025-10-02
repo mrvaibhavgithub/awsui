@@ -22,7 +22,14 @@
   <a href="README_ZH_TW.md"><img src="https://img.shields.io/badge/🇹🇼_繁體中文-available-lightgrey" alt="繁體中文"></a>
 </p>
 
-A powerful, user-friendly terminal interface for AWS Profile and SSO management. Built with [Textual](https://textual.textualize.io/) for a modern, responsive TUI experience.
+<h3 align="center">
+  A powerful, user-friendly terminal interface for AWS Profile and SSO management.<br>
+  Built with <a href="https://textual.textualize.io/">Textual</a> for a modern, responsive TUI experience.
+</h3>
+
+<p align="center">
+  <strong>⚡ Fast</strong> • <strong>🔐 Secure</strong> • <strong>🤖 AI-Powered</strong> • <strong>🌍 Bilingual</strong>
+</p>
 
 ## ✨ Why awsui?
 
@@ -90,6 +97,21 @@ A powerful, user-friendly terminal interface for AWS Profile and SSO management.
 - **Keyboard-First**: Efficient navigation without touching the mouse
 - **Extensible**: Clean Python architecture for customization
 
+## ⚡ Quick Start
+
+```bash
+# Install with uv (recommended)
+uv tool install --python 3.13 awsui
+
+# Or install with pip
+pip install awsui
+
+# Launch the TUI
+awsui
+```
+
+That's it! Start managing your AWS profiles with ease. 🚀
+
 ## 📦 Requirements
 
 - **Python**: >= 3.13, < 3.14
@@ -148,22 +170,22 @@ awsui
 
 **Keyboard Shortcuts:**
 
-| Key | Action |
-|-----|--------|
-| `/` | Focus search box |
-| `↑` `↓` | Navigate profiles |
-| `Enter` | Apply selected profile |
-| `c` | Focus CLI input |
-| `a` | Toggle AI assistant panel |
-| `t` | Toggle left pane (profile list) |
-| `h` | Show AWS CLI cheatsheet |
-| `l` | Force SSO login for selected profile |
-| `w` | Show current AWS identity (WhoAmI) |
-| `Ctrl+L` | Clear CLI output |
-| `Ctrl+U` | Clear CLI input |
-| `Esc` | Leave input field |
-| `?` | Show help |
-| `q` | Quit |
+| Category | Key | Action |
+|----------|-----|--------|
+| **🔍 Navigation** | `/` | Focus search box |
+| | `↑` `↓` | Navigate profiles |
+| | `Enter` | Apply selected profile |
+| | `Esc` | Leave input field |
+| **💻 CLI & Tools** | `c` | Focus CLI input |
+| | `a` | Toggle AI assistant panel |
+| | `h` | Show AWS CLI cheatsheet |
+| | `t` | Toggle left pane (profile list) |
+| **🔐 AWS** | `l` | Force SSO login for selected profile |
+| | `w` | Show current AWS identity (WhoAmI) |
+| **⚙️ System** | `Ctrl+L` | Clear CLI output |
+| | `Ctrl+U` | Clear CLI input |
+| | `?` | Show help |
+| | `q` | Quit |
 
 ### Pre-select Profile
 
@@ -338,9 +360,10 @@ uv run mypy awsui/
 
 ## 🐛 Troubleshooting
 
-### AWS CLI Not Found
+<details>
+<summary><strong>AWS CLI Not Found</strong> - <code>E_NO_AWS: AWS CLI v2 not detected</code></summary>
 
-**Error:** `E_NO_AWS: AWS CLI v2 not detected`
+<br>
 
 **Solution:** Install AWS CLI v2 following the [official guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
@@ -349,9 +372,12 @@ Verify installation:
 aws --version  # Should show "aws-cli/2.x.x ..."
 ```
 
-### No Profiles Available
+</details>
 
-**Error:** `E_NO_PROFILES: No profiles detected`
+<details>
+<summary><strong>No Profiles Available</strong> - <code>E_NO_PROFILES: No profiles detected</code></summary>
+
+<br>
 
 **Solution:** Configure at least one profile:
 ```bash
@@ -365,9 +391,12 @@ aws configure sso
 aws configure
 ```
 
-### SSO Login Fails
+</details>
 
-**Error:** `E_LOGIN_FAIL: SSO login failed`
+<details>
+<summary><strong>SSO Login Fails</strong> - <code>E_LOGIN_FAIL: SSO login failed</code></summary>
+
+<br>
 
 **Possible causes:**
 - Network connectivity issues
@@ -384,9 +413,12 @@ aws sso login --profile your-profile-name
 # Ensure port 8080-8090 range is available for OAuth callback
 ```
 
-### Identity Check Fails
+</details>
 
-**Error:** `E_STS_FAIL: Unable to fetch identity`
+<details>
+<summary><strong>Identity Check Fails</strong> - <code>E_STS_FAIL: Unable to fetch identity</code></summary>
+
+<br>
 
 **Possible causes:**
 - Credentials expired (SSO token or assume-role session)
@@ -406,9 +438,12 @@ cat ~/.aws/config
 aws sts get-caller-identity --profile your-profile-name
 ```
 
-### Amazon Q Not Available
+</details>
 
-**Error:** `Amazon Q CLI not available`
+<details>
+<summary><strong>Amazon Q Not Available</strong> - <code>Amazon Q CLI not available</code></summary>
+
+<br>
 
 **Solution:** Install Amazon Q Developer CLI:
 ```bash
@@ -423,6 +458,8 @@ Verify installation:
 ```bash
 q --version
 ```
+
+</details>
 
 ## 🔒 Security
 
@@ -484,6 +521,29 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**awsui** - Making AWS Profile switching delightful! 🚀
+<h2 align="center">✨ Made with ❤️ for AWS Developers ✨</h2>
 
-If you find this tool useful, please consider giving it a ⭐ on GitHub!
+<p align="center">
+  <strong>awsui</strong> - Making AWS Profile switching delightful! 🚀
+</p>
+
+<p align="center">
+  If you find this tool useful, please consider giving it a ⭐ on GitHub!
+</p>
+
+<p align="center">
+  <a href="https://github.com/junminhong/awsui/stargazers">
+    <img src="https://img.shields.io/github/stars/junminhong/awsui?style=social" alt="GitHub stars">
+  </a>
+  <a href="https://github.com/junminhong/awsui/fork">
+    <img src="https://img.shields.io/github/forks/junminhong/awsui?style=social" alt="GitHub forks">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/junminhong/awsui/issues">Report Bug</a>
+  •
+  <a href="https://github.com/junminhong/awsui/issues">Request Feature</a>
+  •
+  <a href="https://pypi.org/project/awsui/">PyPI Package</a>
+</p>
