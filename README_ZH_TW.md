@@ -18,8 +18,8 @@
 </p>
 
 <p align="center">
-  <a href="README.md"><img src="https://img.shields.io/badge/🇺🇸_English-available-lightgrey" alt="English"></a>
-  <a href="#"><img src="https://img.shields.io/badge/🇹🇼_繁體中文-selected-blue" alt="繁體中文"></a>
+  <a href="README.md"><img src="https://img.shields.io/badge/English-available-lightgrey" alt="English"></a>
+  <a href="#"><img src="https://img.shields.io/badge/繁體中文-selected-blue" alt="繁體中文"></a>
 </p>
 
 <h3 align="center">
